@@ -8,13 +8,14 @@ const supabase = createClient(
 
 export async function POST(req: NextRequest) {
   const { postId, content } = await req.json()
+  let summary = content.slice(0, 150) + "..."
 
   console.log('Summarize called for postId:', postId)
   console.log('GEMINI_API_KEY:', process.env.GEMINI_API_KEY ? 'EXISTS' : 'MISSING')
 
   try {
     const geminiRes = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${process.env.GEMINI_API_KEY}`,
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${process.env.GEMINI_API_KEY}`,
       {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -28,6 +29,7 @@ export async function POST(req: NextRequest) {
     console.log('Gemini response:', JSON.stringify(geminiData))
     
     const summary = geminiData.candidates?.[0]?.content?.parts?.[0]?.text || 'No summary available'
+
 
     await supabase.from('posts').update({ summary }).eq('id', postId)
 
