@@ -16,10 +16,7 @@ The application follows a simple workflow:
 * Users can create, read, and comment on blog posts.
 * When a new post is created, a summary is generated (AI or fallback logic).
 * The summary is stored in the database and displayed on the homepage.
-* Role-based access ensures:
-  * Authors can edit their posts.
-  * Viewers can only read and comment.
-  * Admin can manage all content.
+* **Access Control:** Basic access control is implemented where users can create and edit their own posts, and view or comment on others.
 
 ## 🤖 AI Integration (Gemini)
 Initially, the Google Gemini API was integrated to automatically generate summaries of blog posts (150–200 words). However, due to API quota limits, rate limiting errors (429), and model availability issues, a robust fallback mechanism was implemented.
@@ -37,6 +34,10 @@ Some key issues resolved during development:
 * **Gemini API Errors:** Handled HTTP 429 (quota exceeded), 404 (model not found), and 503 (high demand) errors gracefully via the fallback logic.
 * **Next.js Build Errors:** Resolved syntax and structure issues (e.g., missing brackets `Expected '}', got <eof>`) that prevented successful compilation.
 * **Deployment Issues:** Initial Vercel build failed due to missing credentials. Fixed by manually injecting `SUPABASE_URL`, `ANON_KEY`, and `GEMINI_API_KEY` into Vercel's Environment Variables settings.
+
+## 🚀 Future Enhancements
+* Implementation of full role-based access control (Admin/Viewer separation).
+* Comprehensive admin dashboard for content moderation.
 
 ## How to Run Locally
 1. Clone the repository: `git clone https://github.com/nandinirathore40/blog-app.git`
